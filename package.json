@@ -1,12 +1,13 @@
 {
   "name": "ts-schema-compiler",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./build  && tsc",
     "start": "tsc --watch",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "npm run build"
   },
   "bin": {
     "ts-schema-compiler": "./build/src/ts-schema-compiler.js"

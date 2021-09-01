@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import * as TJS from 'typescript-json-schema'
 import { compileVersion7 } from './compileVersion7'
 
 const fileName = process.argv[2]

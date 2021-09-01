@@ -85,7 +85,7 @@ Object {
 })
 
 it('should validate', () => {
-  const ajv = new Ajv({ allErrors: true, removeAdditional: true })
+  const ajv = new Ajv({ allErrors: true })
   const validate = ajv.compile(schema)
 
   {
@@ -98,7 +98,8 @@ it('should validate', () => {
         a: 'hi'
       }
     }
-    validate(shouldPass)
+    const valid = validate(shouldPass)
+    expect(valid).toBe(true)
     expect(validate.errors?.length === 0)
   }
 
@@ -109,7 +110,8 @@ it('should validate', () => {
         stringArray: ['1', '2']
       }
     }
-    validate(shouldPassWithoutOptional)
+    const valid = validate(shouldPassWithoutOptional)
+    expect(valid).toBe(true)
     expect(validate.errors?.length === 0)
   }
 
@@ -117,10 +119,11 @@ it('should validate', () => {
     const shouldPassWithEmptyArray: Test = {
       value: 1,
       otherInterface: {
-        stringArray: ['1', '2']
+        stringArray: []
       }
     }
-    validate(shouldPassWithEmptyArray)
+    const valid = validate(shouldPassWithEmptyArray)
+    expect(valid).toBe(true)
     expect(validate.errors?.length === 0)
   }
 
@@ -129,7 +132,8 @@ it('should validate', () => {
       value: 1,
       otherInterface: null
     }
-    validate(shouldPassWithNull)
+    const valid = validate(shouldPassWithNull)
+    expect(valid).toBe(true)
     expect(validate.errors?.length === 0)
   }
 
@@ -143,6 +147,15 @@ it('should validate', () => {
     expect(valid).toBe(false)
     expect(validate.errors).toMatchInlineSnapshot(`
 Array [
+  Object {
+    "instancePath": "",
+    "keyword": "additionalProperties",
+    "message": "must NOT have additional properties",
+    "params": Object {
+      "additionalProperty": "bla",
+    },
+    "schemaPath": "#/additionalProperties",
+  },
   Object {
     "instancePath": "/value",
     "keyword": "type",

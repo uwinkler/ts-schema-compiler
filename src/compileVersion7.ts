@@ -4,19 +4,22 @@ import * as TJS from 'typescript-json-schema'
 const settingsV7: TJS.PartialArgs = {
   required: true,
   noExtraProps: true, // There is a bug in the ajv compiler
-  ref: true
+  ref: true,
+  ignoreErrors: true
 }
 
-const compilerOptions: TJS.CompilerOptions = {
+const defaultCompilerOptions: TJS.CompilerOptions = {
   strictNullChecks: true,
-  baseUrl: './src',
-  skipLibCheck: true
+  skipLibCheck: true,
+  allowSyntheticDefaultImports: true,
+  esModuleInterop: true,
+  resolveJsonModule: true
 }
 
 export function compileVersion7(fileName: string, typeName: string): any {
   const program = TJS.getProgramFromFiles(
     [resolve(fileName)],
-    compilerOptions,
+    { ...defaultCompilerOptions },
     './'
   )
 
